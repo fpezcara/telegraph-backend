@@ -24,6 +24,23 @@ Routes.route("/").get(async (req, res) => {
 
 });
 
+Routes.route("/:str").get(async (req, res) => {
+
+  const dbConnect = dbo.getDb();
+
+  dbConnect
+    .collection("posts")
+    .find({ 'title': req.params.str })
+    .toArray(function (err, result) {
+      try {
+        res.json(result);
+      } catch (err) {
+        res.status(400).send("Error Fetching Telegraphs!");
+      }
+    });
+
+});
+
 Routes.route("/").post(function (req, res) {
 
   const dbConnect = dbo.getDb();
