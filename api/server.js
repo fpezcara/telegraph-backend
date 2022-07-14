@@ -4,6 +4,7 @@ require("dotenv").config({ path: "./config.env" });
 // MAIN IMPORTS FOR EXPRESS.JS SERVER
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 // BRING DB-CONFIG TO EXECUTE CONNECTION WITH MONGO ATLAS
 const dbo = require("./db/conn");
@@ -12,6 +13,7 @@ const dbo = require("./db/conn");
 const server = express();
 server.use(cors());
 server.use(express.json());
+server.use(bodyParser.json());
 
 // ROUTER
 const routePosts = require('./routes/routePosts')

@@ -1,12 +1,17 @@
 const express = require('express');
 
+const upload = require("../services/uploadImage");
+const pics = upload.single('image')
+
 // ROUTER WILL BE ADDED AS MIDDLEWAREE AND WILL TAKE CONTROL OF REQUESTS
 const Routes = express.Router();
 
 // GET CONNECTED TO THE DATABASE
 const dbo = require("../db/conn");
 
-// GET ALL POSTS "JUST TESTING TO SEE THE ATLAS RESPONSE"
+
+
+// GET ALL POSTS "JUST TESTING TO SEE ATLAS RESPONSE"
 Routes.route("/").get(async (req, res) => {
 
   const dbConnect = dbo.getDb();
@@ -24,13 +29,15 @@ Routes.route("/").get(async (req, res) => {
 
 });
 
+// GET SPECIFIC POST BY TITLE
 Routes.route("/:str").get(async (req, res) => {
 
   const dbConnect = dbo.getDb();
+  const path = req.params.str;
 
   dbConnect
     .collection("posts")
-    .find({ 'title': req.params.str })
+    .find({ 'title': path })
     .toArray(function (err, result) {
       try {
         res.json(result);
@@ -41,16 +48,24 @@ Routes.route("/:str").get(async (req, res) => {
 
 });
 
-Routes.route("/").post(function (req, res) {
+// POST NEW TELEGRAPH POST
+Routes.route("/").post(pics, (req, res) => {
 
   const dbConnect = dbo.getDb();
+
+  const pic = req.files.map((file) => {
+    return { url: file.location }
+  })
+
+  console.log(pic.url)
 
   const newPost = {
     title: req.body.title,
     name: req.body.name,
     story: req.body.story,
     date: new Date(),
-    url: req.body.url
+    url: req.body.url,
+    file: pic.url
   };
 
   dbConnect
