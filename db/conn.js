@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 
-const connectionString = process.env.ATLAS_URI;
+// const connectionString = process.env.ATLAS_URI;
+const connectionString = 'mongodb+srv://allans:asr130690xx@cluster0.9tnnh.mongodb.net/?retryWrites=true&w=majority'
 
 const client = new MongoClient(connectionString, {
   useNewUrlParser: true,
