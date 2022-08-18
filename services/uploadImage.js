@@ -3,8 +3,6 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const uuid = require('uuid').v4;
 
-
-
 aws.config.update({
     secretAccessKey: process.env.S3_ACCESS_SECRET,
     accessKeyId: process.env.S3_ACCESS_KEY,
